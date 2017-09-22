@@ -1,0 +1,208 @@
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Java Script</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="bootstrap-toggle.js"></script>
+<link rel="stylesheet" href="bootstrap-toggle.css" />
+<style>
+.game {
+	height: 472px;
+	width: 472px;
+	background-color: #333;
+	border-radius: 100%;
+	margin: 0 auto;
+	text-align: center;
+	position: relative;
+}
+.raw {
+	position: relative;
+	top: 12px;
+}
+.clr {
+	cursor: pointer;
+	height: 200px;
+	width: 200px;
+	display: inline-block;
+	border: 12px solid #333;
+	-webkit-box-sizing: initial;
+	-moz-box-sizing: initial;
+	box-sizing: initial;
+}
+.clr1 {
+	background-color: #00a74a;
+	border-top-left-radius: 100%;
+}
+.clr2 {
+	background-color: #9f0f17;
+	border-top-right-radius: 100%;
+}
+.clr3 {
+	background-color: #cca707;
+	border-bottom-left-radius: 100%;
+}
+.clr4 {
+	background-color: #094a8f;
+	border-bottom-right-radius: 100%;
+}
+.middle {
+	width: 220px;
+	height: 220px;
+	position: absolute;
+	border-radius: 100%;
+	top: 50%;
+	left: 50%;
+	margin: -122px 0 0 -122px;
+	background-color: #ECE7EE;
+	border: 12px solid #333;
+}
+.counter {
+	font-family: 'VT323', monospace;
+	color: #DC0D29;
+	padding: 0px;
+	font-size: 2em;
+	width: 50px;
+	background-color: #32050C;
+	position: relative;
+	border: 4px solid #222;
+	border-radius: 10px;
+	margin: auto;
+	height: 50px;
+	top: 36%;
+	right: 60px;
+}
+.start {
+	margin-top: 0px;
+}
+.start input {
+	outline: none;
+	width: 25px;
+	height: 25px;
+	border-radius: 100%;
+	background-color: red;
+	border: none;
+}
+.toggle.btn-xs {
+	top: 100px;
+}
+.show {
+	display: inline-block !important;
+}
+.show.clr1 {
+	background-color: green;
+}
+.show.clr2 {
+	background-color: red;
+}
+.show.clr3 {
+	background-color: yellow;
+}
+.show.clr4 {
+	background-color: blue;
+}
+</style>
+</head>
+<body>
+<div class="game">
+  <div class="raw">
+    <div class="clr clr1" ></div>
+    <div class="clr clr2"></div>
+    <div class="clr clr3"></div>
+    <div class="clr clr4"></div>
+    <div class="middle">
+      <p class="counter"></p>
+      <input type="checkbox" checked data-toggle="toggle" data-off="OFF" data-on="ON" data-onstyle="success" data-offstyle="danger" data-size="mini" id="changesss">
+      <p class="start">
+        <input type="button">
+        </br>
+        start</p>
+    </div>
+  </div>
+</div>
+<script>
+
+ var interval,array3 = new Array, array4 = new Array,timeout,timeouts,txt=1;
+  $('#changesss').bootstrapToggle('off');
+          var count = 0;
+jQuery("#changesss").change(function () {
+	      count++;
+		 if (count % 2 === 0) {	
+		 $(".counter").empty();
+		 clearInterval(interval);
+		 clearTimeout(timeout);
+		  $(".clr").removeClass('show');
+    }
+    else  if (count % 2 !== 0){
+          counterOn();
+    }
+    });	
+function counterOn(){
+		 $('.counter').text('--');
+		           }	
+	jQuery(".start").click(function () {		
+		 if (count % 2 !== 0){
+			$('.counter').text(txt);
+			gameOn();
+				 }
+		});
+				
+$(".clr").click(function(){
+       var clickdiv=$(this).index();
+        array4.push(clickdiv);
+		if(array3.length===array4.length){
+		checkGame();
+			} 
+ })		
+function gameOn(){
+	var divs = $('.game').find('.clr'),
+    len = divs.length,
+    randomDiv,
+    speed = 4000;
+    randomDiv = Math.floor(Math.random()*len);
+    array3.push(randomDiv);
+ var i=0;
+    interval=setInterval(
+                   function() { 
+				timeouts=setTimeout(function() {
+			           divs.eq(array3[i]).addClass('show'); 
+					   if (i+1==array3.length){
+						clickbtn();
+			} },1000); 
+					timeout=setTimeout(function() {
+						 divs.removeClass('show');
+						 i++;
+					if (i==array3.length){
+						$('.counter').text(txt);
+				i=0;}},2000);      
+                          } , speed);						  							
+				}				
+function checkGame(){
+	if(array3.toString()===array4.toString()){
+		txt++;
+		$('.counter').text(txt);
+		array4=[];
+		 	clearInterval(interval);
+		 clearTimeout(timeout);
+		 clearTimeout(timeouts);								   
+		gameOn();		
+		}else{
+			clickbtn();
+			txtbtn();
+			array4=[];
+			}	
+	}								
+	function clickbtn(){
+		$('.counter').text("!!");	
+		}			
+function txtbtn(){
+	setTimeout(function() {
+		$('.counter').text(txt);				      
+                          } , 1000);
+		}		
+				
+</script>
+</body>
+</html>
